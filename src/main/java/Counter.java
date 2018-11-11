@@ -1,4 +1,4 @@
-import java.awt.Insets;
+import java.awt.*;
 
 import javax.swing.ImageIcon;
 import javax.swing.JButton;
@@ -31,7 +31,8 @@ public class Counter extends JPanel{
 
     public Counter(int num) {
         for(int i = 0;i < 3;i ++) {
-            counter[i].setSize(13, 23);
+            counter[i].setMaximumSize(new Dimension(13, 23));
+            counter[i].setPreferredSize(new Dimension(13, 23));
             counter[i].setMargin(new Insets(0, 0, 0, 0));
             add(counter[i]);
         }

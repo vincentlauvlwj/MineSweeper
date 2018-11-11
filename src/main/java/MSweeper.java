@@ -1,8 +1,6 @@
-import java.awt.Color;
-import java.awt.GridBagConstraints;
-import java.awt.GridBagLayout;
-import java.awt.Insets;
-import java.awt.Toolkit;
+import javax.swing.*;
+import javax.swing.plaf.metal.MetalLookAndFeel;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.InputEvent;
@@ -13,8 +11,6 @@ import java.util.Date;
 import java.util.Random;
 import java.util.Timer;
 import java.util.TimerTask;
-
-import javax.swing.*;
 
 /**
  * @author Vincent Lau
@@ -129,7 +125,8 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
         menuBar.add(helpMenu);
         setJMenuBar(menuBar);
 
-        faceBut.setSize(26, 27);
+        faceBut.setMaximumSize(new Dimension(26, 27));
+        faceBut.setPreferredSize(new Dimension(26, 27));
         faceBut.setMargin(new Insets(0, 0, 0, 0));
         faceBut.addMouseListener(this);
         faceBut.setPressedIcon(faceIcon[1]);
@@ -173,6 +170,8 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
                 mineButton[row][col].setMargin(new Insets(0, 0, 0, 0));
                 mineButton[row][col].setBackground(Color.LIGHT_GRAY);
                 mineButton[row][col].setFocusPainted(false);
+                mineButton[row][col].setMaximumSize(new Dimension(17, 17));
+                mineButton[row][col].setPreferredSize(new Dimension(17, 17));
                 buildConstraints(constraints, col, row + 2, 1, 1);
                 pane.add(mineButton[row][col], constraints);
             }
@@ -424,7 +423,7 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
 
     public static void main(String[] args) {
         try {
-            UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
+            UIManager.setLookAndFeel(new MetalLookAndFeel());
         } catch (Exception e) {
             e.printStackTrace();
         }
