@@ -17,13 +17,10 @@ public class AboutDialog extends JDialog implements ActionListener{
     private GridBagConstraints constraints = new GridBagConstraints();
     private GridBagLayout gridBag = new GridBagLayout();
     private JLabel nameLabel = new JLabel("Mine Sweeper for Java.");
-    private JLabel versionLabel = new JLabel("Version: 2.5");
-    private JLabel rightLabel = new JLabel("Copyright (c) 2013-2014 Vincent Lau, S.M.U. All rights reserved.");
+    private JLabel rightLabel = new JLabel("Copyright (c) 2014 Vincent Lau");
     private JLabel dateLabel = new JLabel("Release Date: 2014-01-24");
-    private JLabel emailLabel = new JLabel("E-mail: vincent_lauvl@163.com, vincentlauvlwj@gmail.com");
-    private JLabel resourcesLabel = new JLabel("Resources: Windows XP");
-    private JLabel referenceLabel = new JLabel("Reference: Jerry Shen(Shen Ji Feng)");
-    private JLabel linkLabel = new JLinkLabel("http://bbs.chinaunix.net/thread-1069189-1-1.html");
+    private JLabel emailLabel = new JLabel("E-mail: me@liuwj.me");
+    private JLabel resourcesLabel = new JLabel("Resources From: Windows XP");
     private JLabel blanketLabel = new JLabel(" ");
     private JButton okBut = new JButton("OK");
     private MSweeper parent;
@@ -39,15 +36,12 @@ public class AboutDialog extends JDialog implements ActionListener{
         okBut.setFocusPainted(false);
         aboutPane.setLayout(gridBag);
         addComponent(nameLabel, 1);
-        addComponent(versionLabel, 2);
-        addComponent(rightLabel, 3);
-        addComponent(dateLabel, 4);
-        addComponent(emailLabel, 5);
-        addComponent(resourcesLabel, 6);
-        addComponent(referenceLabel, 7);
-        addComponent(linkLabel, 8);
-        addComponent(blanketLabel, 9);
-        addComponent(okBut, 10);
+        addComponent(rightLabel, 2);
+        addComponent(dateLabel, 3);
+        addComponent(emailLabel, 4);
+        addComponent(resourcesLabel, 5);
+        addComponent(blanketLabel, 6);
+        addComponent(okBut, 7);
 
         setContentPane(aboutPane);
         pack();
