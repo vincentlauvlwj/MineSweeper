@@ -143,6 +143,7 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
         controlPane.add(timeCounter);
 
         minePane.setLayout(new GridBagLayout());
+        minePane.setBackground(Color.LIGHT_GRAY);
         contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
