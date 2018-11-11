@@ -7,8 +7,6 @@ import javax.swing.JPanel;
 /**
  * @author Vincent Lau
  */
-
-@SuppressWarnings("serial")
 public class Counter extends JPanel{
     private int num;
     private ImageIcon[] numImgs = {
@@ -41,7 +39,6 @@ public class Counter extends JPanel{
         reset(num);
     }
 
-    //���ü�����
     public void reset(int num) {
         this.num = num;
         this.num = this.num<0 ? 0 : this.num;
@@ -50,7 +47,6 @@ public class Counter extends JPanel{
         repaint();
     }
 
-    //��������һ
     public void add() {
         num ++;
         num = num>999 ? 999 : num;
@@ -58,7 +54,6 @@ public class Counter extends JPanel{
         repaint();
     }
 
-    //���ü�����ͼ��
     private void resetImage() {
         int ones = num % 10;
         int tens = num % 100 / 10;

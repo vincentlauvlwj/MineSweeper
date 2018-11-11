@@ -1,5 +1,9 @@
+import com.sun.java.swing.plaf.motif.MotifLookAndFeel;
+import com.sun.java.swing.plaf.windows.WindowsLookAndFeel;
+
 import javax.swing.*;
 import javax.swing.plaf.metal.MetalLookAndFeel;
+import javax.swing.plaf.nimbus.NimbusLookAndFeel;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -64,15 +68,16 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
     private ButtonGroup buttonGroup = new ButtonGroup();
     private JMenuItem exitItem = new JMenuItem("Exit");
     private JMenuItem aboutItem = new JMenuItem("About Mine Sweeper for Java...");
-    private GridBagConstraints constraints = new GridBagConstraints();
-    private GridBagLayout gridBag = new GridBagLayout();
+
     private JPanel controlPane = new JPanel();
-    private JPanel pane = new JPanel();
+    private JPanel minePane = new JPanel();
+    private JPanel contentPane = new JPanel();
     private JButton faceBut = new JButton(faceIcon[0]);
 
     private Counter mineCounter = new Counter(0);
     private Counter timeCounter = new Counter(0);
     private MineButton[][] mineButton;
+
     private int maxRow;
     private int maxCol;
     private int mineNum;
@@ -136,7 +141,9 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
         controlPane.add(mineCounter);
         controlPane.add(faceBut);
         controlPane.add(timeCounter);
-        pane.setLayout(gridBag);
+
+        minePane.setLayout(new GridBagLayout());
+        contentPane.setLayout(new BoxLayout(contentPane, BoxLayout.Y_AXIS));
 
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         setResizable(false);
@@ -156,12 +163,13 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
         faceBut.setIcon(faceIcon[0]);
         if(timer != null) timer.cancel();
 
-        pane.removeAll();
+        contentPane.removeAll();
+
         mineCounter.reset(mineNum);
         timeCounter.reset(0);
-        buildConstraints(constraints, 0, 0, maxCol, 2);
-        pane.add(controlPane, constraints);
+        contentPane.add(controlPane);
 
+        minePane.removeAll();
         mineButton = new MineButton[maxRow][maxCol];
         for(int row = 0;row < maxRow;row ++) {
             for(int col = 0;col < maxCol;col ++) {
@@ -172,12 +180,18 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
                 mineButton[row][col].setFocusPainted(false);
                 mineButton[row][col].setMaximumSize(new Dimension(17, 17));
                 mineButton[row][col].setPreferredSize(new Dimension(17, 17));
-                buildConstraints(constraints, col, row + 2, 1, 1);
-                pane.add(mineButton[row][col], constraints);
+
+                GridBagConstraints gbc = new GridBagConstraints();
+                gbc.gridx = col;
+                gbc.gridy = row;
+                gbc.gridwidth = 1;
+                gbc.gridheight = 1;
+                minePane.add(mineButton[row][col], gbc);
             }
         }
 
-        setContentPane(pane);
+        contentPane.add(minePane);
+        setContentPane(contentPane);
         pack();
         int width = Toolkit.getDefaultToolkit().getScreenSize().width;
         int height = Toolkit.getDefaultToolkit().getScreenSize().height;
@@ -228,13 +242,6 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
             setNewGame(maxRow, maxCol, mineNum);
             break;
         }
-    }
-
-    private void buildConstraints(GridBagConstraints gbc, int gx, int gy, int gw, int gh) {
-        gbc.gridx = gx;
-        gbc.gridy = gy;
-        gbc.gridwidth = gw;
-        gbc.gridheight = gh;
     }
 
     private void checkMine(int row, int col) {
@@ -350,6 +357,7 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
 
     private boolean doubleClickFlag;
     private int clickTimes;
+
     @Override
     public void mouseClicked(final MouseEvent e) {
         if(e.getSource() == faceBut) {
@@ -359,7 +367,7 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
 
         final int row = ((MineButton) e.getSource()).getRow();
         final int col = ((MineButton) e.getSource()).getCol();
-        if(! isStarted && e.getButton() == MouseEvent.BUTTON1) startGame(row, col);
+        if(!isStarted && e.getButton() == MouseEvent.BUTTON1) startGame(row, col);
 
         doubleClickFlag = false;
         if(clickTimes == 1) {
@@ -421,12 +429,20 @@ public class MSweeper extends JFrame implements ActionListener, MouseListener {
         return mineNum;
     }
 
-    public static void main(String[] args) {
-        try {
+    public static void main(String[] args) throws UnsupportedLookAndFeelException {
+        String os = System.getProperty("os.name");
+        if (os == null) {
             UIManager.setLookAndFeel(new MetalLookAndFeel());
-        } catch (Exception e) {
-            e.printStackTrace();
+        } else if (os.contains("Windows")) {
+            UIManager.setLookAndFeel(new WindowsLookAndFeel());
+        } else if (os.contains("Linux")) {
+            UIManager.setLookAndFeel(new MotifLookAndFeel());
+        } else if (os.contains("OS X")) {
+            UIManager.setLookAndFeel(new NimbusLookAndFeel());
+        } else {
+            UIManager.setLookAndFeel(new MetalLookAndFeel());
         }
+
         new MSweeper("Mine Sweeper for Java").setVisible(true);
     }
 }
